@@ -4,12 +4,14 @@ var randomNumber = Math.ceil(Math.random() * 100);
 var pGuesses = document.getElementById("pGuesses");
 var start = document.getElementById("StartOver");
 const guessesRemaining = document.querySelector("span");
-
+let gameFinish = false;
 let guessCount = 0;
 
 function again() {
   outputText.innerHTML = "Enter a number berlow";
   guessCount = 0;
+  gameFinish = false;
+  outputText.style.color = "red";
   guessesRemaining.innerText = parseInt(guessesRemaining.innerText);
   guessesRemaining.innerText = 5;
   randomNumber = Math.floor(Math.random() * 100);
@@ -18,13 +20,14 @@ function again() {
 start.addEventListener("click", again);
 
 function checkNumber() {
-  if (guessCount >= 5) {
+  if (guessCount >= 5 || gameFinish) {
     outputText.innerHTML = "Start Over";
     return;
   }
   var input = document.getElementById("userInput").value;
   if (input == randomNumber) {
     outputText.innerHTML = "You guessed right";
+    gameFinish = true;
     outputText.style.color = "green";
   } else if (guessCount === 4) {
     outputText.innerHTML = "You have no more Guesses!";
