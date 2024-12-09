@@ -4,26 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/style.css" />
-    <title>Guess the number</title>
+    <title>Guess the Number</title>
   </head>
   <body>
-    <div id="container">
-      <p>
-        Number Guessing Game between 1 and 100 and You have
-        <span>5</span> trials!
-      </p>
-      <p id="outputText"></p>
-      <label for="userInput">Enter Your Number</label>
-      <input type="number" id="userInput" />
+    <header>
+      <h1>Number Guessing Game</h1>
+    </header>
 
-      <button type="button" id="Guess">Enter</button>
-      <button type="button" id="StartOver">Start Over</button>
+    <main id="container">
+      <section id="section-1">
+        <p>
+          Guess a number between 1 and 100 <br />
+          You have <span>5</span> trials!
+        </p>
+        <p id="outputText" aria-live="polite"></p>
+        <label for="userInput">Enter Your Number</label>
+        <input
+          type="number"
+          id="userInput"
+          minlength="1"
+          maxlength="100"
+          required
+        />
 
-      <div id="pGuesses">
-        <p>Your Previous Guesses</p>
+        <button type="button" id="Guess">Enter</button>
+        <button type="button" id="StartOver">Start Over</button>
+      </section>
+
+      <section id="pGuesses">
+        <h2>Your Previous Guesses</h2>
         <ul id="resultList"></ul>
-      </div>
-    </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 | Designed and developed by <a href="#">Muji</a></p>
+    </footer>
+
     <script src="js/index.js"></script>
   </body>
 </html>

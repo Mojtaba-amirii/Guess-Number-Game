@@ -1,59 +1,59 @@
-var Guess = document.getElementById("Guess");
-var outputText = document.getElementById("outputText");
-var randomNumber = Math.ceil(Math.random() * 100);
-var pGuesses = document.getElementById("pGuesses");
-var start = document.getElementById("StartOver");
+const guessButton = document.getElementById("Guess");
+const outputText = document.getElementById("outputText");
+const pGuesses = document.getElementById("pGuesses");
+const startButton = document.getElementById("StartOver");
 const guessesRemaining = document.querySelector("span");
+let randomNumber = Math.ceil(Math.random() * 100);
 let gameFinish = false;
 let guessCount = 0;
 
-function again() {
-  outputText.innerHTML = "Enter a number berlow";
+function resetGame() {
+  outputText.innerHTML = "";
+  outputText.style.color = "black";
   guessCount = 0;
   gameFinish = false;
-  outputText.style.color = "red";
-  guessesRemaining.innerText = parseInt(guessesRemaining.innerText);
   guessesRemaining.innerText = 5;
-  randomNumber = Math.floor(Math.random() * 100);
+  randomNumber = Math.ceil(Math.random() * 100);
   document.getElementById("resultList").innerHTML = "";
+  document.getElementById("userInput").value = "";
 }
-start.addEventListener("click", again);
+
+startButton.addEventListener("click", resetGame);
 
 function checkNumber() {
-  if (guessCount >= 5 || gameFinish) {
-    outputText.innerHTML = "Start Over";
+  if (gameFinish) {
+    outputText.innerHTML = "Game over. Click 'Start Over' to play again.";
     return;
   }
-  var input = document.getElementById("userInput").value;
-  if (input == randomNumber) {
-    outputText.innerHTML = "You guessed right";
-    gameFinish = true;
-    outputText.style.color = "green";
-  } else if (guessCount === 4) {
-    outputText.innerHTML = "You have no more Guesses!";
-    guessCount++;
-  } else if (input > randomNumber && input < 100) {
-    outputText.innerHTML = "You guessed to high";
-    guessCount++;
-  } else if (input < randomNumber && input > 1) {
-    outputText.innerHTML = "You guessed to low";
-    guessCount++;
-  } else if (input < 1) {
-    outputText.innerHTML = "Higher Number, between 1 and 100";
-    guessCount++;
-  } else if (isNaN(input)) {
-    outputText.innerHTML = "Thats not a number";
-    guessCount++;
-  } else {
-    outputText.innerHTML = "between 1 and 100";
-    guessCount++;
-  }
-  if (guessCount < 6) {
-    const li = document.createElement("li");
-    li.innerText = document.getElementById("userInput").value;
-    document.getElementById("resultList").appendChild(li);
 
-    guessesRemaining.innerText = parseInt(guessesRemaining.innerText) - 1;
+  const input = parseInt(document.getElementById("userInput").value);
+
+  if (isNaN(input) || input < 1 || input > 100) {
+    outputText.innerHTML = "Please enter a valid number between 1 and 100.";
+    return;
   }
+
+  guessCount++;
+  if (input === randomNumber) {
+    outputText.innerHTML = "Congratulations! You guessed the right number!";
+    outputText.style.color = "green";
+    gameFinish = true;
+  } else if (guessCount >= 5) {
+    outputText.innerHTML = `You've used all your guesses. The number was ${randomNumber}.`;
+    gameFinish = true;
+  } else {
+    outputText.innerHTML =
+      input > randomNumber
+        ? "Your guess is too high."
+        : "Your guess is too low.";
+    outputText.style.color = "red";
+  }
+
+  const li = document.createElement("li");
+  li.innerText = input;
+  document.getElementById("resultList").appendChild(li);
+
+  guessesRemaining.innerText = 5 - guessCount;
 }
-Guess.addEventListener("click", checkNumber);
+
+guessButton.addEventListener("click", checkNumber);
